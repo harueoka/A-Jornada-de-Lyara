@@ -26,10 +26,19 @@ O jogo se passa na vila de Elfhame, com paisagens encantadoras, florestas gigant
 
 ## Objetivos 
 
-Garantir a segurança na sua humilde vila, fortalecendo defesas e construindo alianças locais.
-Vingar a morte de sua mãe, derrotando Valor e mostrando que seu sacrifício não foi em vão.
-Descobrir os mistérios que a floresta mágica guarda, desvendando enigmas que podem mudar o rumo da batalha.
-Unir forças com aliados fortes para êxito no combate contra O Destruidor, Varkor, garantindo que nenhum sacrifício seja em vão.
+* Garantir a segurança na sua humilde vila, fortalecendo defesas e construindo alianças locais.
+* Vingar a morte de sua mãe, derrotando Valor e mostrando que seu sacrifício não foi em vão.
+* Descobrir os mistérios que a floresta mágica guarda, desvendando enigmas que podem mudar o rumo da batalha.
+* Unir forças com aliados fortes para êxito no combate contra O Destruidor, Varkor, garantindo que nenhum sacrifício seja em vão.
+
+### Instruções de Execução
+Para jogar o jogo, basta executar o código em um ambiente que suporte a linguagem C. Certifique-se de seguir as instruções e tomar decisões importantes que moldarão a narrativa do jogo.
+Divirta-se explorando a emocionante Jornada de Lyara e descobrindo os segredos e desafios que aguardam você.
+
+### Desenvolvido por:
+* Graziella do Rosário
+* Hanna Bechara Ueoka
+* Mirella Freitas
 
 
 
