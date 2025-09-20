@@ -11,7 +11,7 @@ Quando Lyara tinha apenas 14 anos, a tragédia chegou à sua porta. Numa noite e
 
 Com o coração partido e cheio de promessas, Lyara cresceu. Ela não se tornou apenas uma mulher; ela se tornou uma guerreira. Anos de treinamento duro transformaram-na em uma jovem forte e determinada, com um único objetivo em mente: fazer justiça pela morte de sua mãe. Agora, adulta, Lyara está pronta para enfrentar o perigo que destruiu sua infância. A vingança dela contra Varkor está apenas começando.
 
-### 2.1 Personagens
+## Personagens
 
 * **Lyara:** A personagem principal da narrativa, uma garota curiosa sobre o mundo que a cerca.
 * **Lewis:** Dragão 1, uma criatura da floresta que poderá se tornar companheiro da protagonista.
@@ -20,9 +20,16 @@ Com o coração partido e cheio de promessas, Lyara cresceu. Ela não se tornou 
 * **Gulch:** Bruxa da floresta, que esconde segredos obscuros.
 * **Lugde:** Pai da protagonista, Lyara.
 
-### 2.2 Cenário
+## Cenário
 
 O jogo se passa na vila de Elfhame, com paisagens encantadoras, florestas gigantes e criaturas como dragões e ogros. Também há lagos místicos. A jornada de Lyara acontece em uma realidade alternativa de fantasia sombria, onde a beleza do mundo se mistura com perigos constantes, obrigando-a a enfrentar diversos desafios em sua busca por justiça.
+
+## Objetivos 
+
+Garantir a segurança na sua humilde vila, fortalecendo defesas e construindo alianças locais.
+Vingar a morte de sua mãe, derrotando Valor e mostrando que seu sacrifício não foi em vão.
+Descobrir os mistérios que a floresta mágica guarda, desvendando enigmas que podem mudar o rumo da batalha.
+Unir forças com aliados fortes para êxito no combate contra O Destruidor, Varkor, garantindo que nenhum sacrifício seja em vão.
 
 
 
