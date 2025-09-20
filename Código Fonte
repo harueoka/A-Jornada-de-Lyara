@@ -1,0 +1,716 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
+#include <stdbool.h>
+
+// DADOS DO RPG //
+typedef struct {
+    // Variáveis //
+    char nomeDragao[20];
+    int respostaDialogoDragao;
+    int respostaDesafioMental;
+    int respostaShreks;
+    int escolhaOgroPorrada;
+    int respostaMotivacao;
+    int respostaVarkor;
+    int escolhaPoder;
+    int respostaCombinacao;
+    int respostaEnigma;
+    int escolhaFinal;
+    int escolhaVila;
+    int escolhaDragao;
+    char escolhaExplorarLago;
+    char escolhaPegarFlor;
+    int escolhaEntrarCabana;
+    int escolhaAtaqueBruxa;
+    int escolhaMentalCastelo;
+    int escolhaEnigmaCadeado;
+    int escolhaFi;
+} EstadoDoJogo;
+
+// PROTOTIPO DAS FUNÇÕES DO RPG //
+
+// Parte 1: Início ou não da jornada de Lyara //
+void dialogoPai();
+void escolhaVila(EstadoDoJogo *jogo);
+void ficar();
+void sair();
+
+// Parte 2: O encontro e a escolha dos Dragões //
+void encontroDragao(EstadoDoJogo *jogo);
+void definirDragao(EstadoDoJogo *jogo);
+void dialogoDragao(EstadoDoJogo *jogo);
+void respostaErradaDragao();
+void desafioMental(EstadoDoJogo *jogo);
+
+// Parte 3: O ogro Shreks //
+void encontroShreks(EstadoDoJogo *jogo);
+void dialogoShreks(EstadoDoJogo *jogo);
+void combateOgro(EstadoDoJogo *jogo);
+void contextoDefesa();
+void contextoAtaque();
+void testeVinganca(EstadoDoJogo *jogo);
+
+// Parte 4: A flor mágica no lago encantado //
+void lagoMagico(EstadoDoJogo *jogo);
+
+// Parte 5: A cabana da Bruxa //
+void encontroBruxa(EstadoDoJogo *jogo);
+
+// Parte 6: Chegada ao castelo de Pietas //
+void casteloPietas(EstadoDoJogo *jogo);
+void bencao();
+void naobencao();
+
+// Parte 7: Encontro da dragão fêmea aprisionada //
+void encontroDaCela(EstadoDoJogo *jogo);
+void liberdade();
+void fracasso();
+
+// Parte 8: O confronto final com Varkor //
+void dialogoInicialVarkor(EstadoDoJogo *jogo);
+void escolhaPoder(EstadoDoJogo *jogo);
+void desafioCombinacao(EstadoDoJogo *jogo);
+void desafioEnigma(EstadoDoJogo *jogo);
+void finalHistoria(EstadoDoJogo *jogo);
+void dialogoFinal(EstadoDoJogo *jogo);
+void escolhaFin(EstadoDoJogo *jogo);
+
+// Finais
+void sacrificioHeroico();
+void vitoriaConjunta();
+void ataqueInsuficiente();
+
+// Função Principal //
+int main() {
+    setlocale(LC_ALL, "portuguese");
+
+    // Estrutura que guardará o estado do RPG //
+    EstadoDoJogo jogo;
+
+    // Execução da história em ordem lógica //
+    dialogoPai();
+    escolhaVila(&jogo);
+
+    encontroDragao(&jogo);
+    
+    encontroShreks(&jogo);
+    
+    lagoMagico(&jogo);
+    
+    encontroBruxa(&jogo);
+    
+    casteloPietas(&jogo);
+
+    encontroDaCela(&jogo);
+
+    dialogoInicialVarkor(&jogo);
+    escolhaPoder(&jogo);
+
+    finalHistoria(&jogo);
+    dialogoFinal(&jogo);
+    escolhaFin(&jogo);
+
+    printf("\n\nFIM DE JOGO - OBRIGADO POR JOGAR!\n");
+
+    return 0;
+}
+
+// IMPLEMENTANDO AS FUNÇÕES //
+
+
+// Parte 1: Início ou não da jornada de Lyara //
+
+void dialogoPai() {
+    printf("=========================================\n");
+    printf("   Seja bem-vindo a 'A Jornada de Lyara' \n");
+    printf("=========================================\n\n");
+    printf("O sol começava a despertar timidamente sobre a densa floresta, tingindo o céu com tons alaranjados e dourados. Uma neblina tênue ainda cobria a vila de Elfhame, envolvendo as casas em um véu misterioso.\nNo sul da vila, numa modesta cabana de madeira desgastada pelo tempo, vivia Lyara — uma jovem marcada pelo destino, cujo coração ardia com um único propósito: proteger sua terra e buscar vingança pelo assassinato brutal de sua mãe.\n");
+    printf("Varkor, conhecido como O Destruidor, era um nome que ninguém ousava pronunciar sem medo. Seus olhos, frios e cruéis, carregavam a fúria e a ambição desmedida de um homem que só conhecia a escuridão. Seu corpo, marcado por cicatrizes profundas, contava histórias de batalhas sangrentas contra os moradores da vila, que mesmo com coragem não passavam de presas fáceis para seus capangas brutais.\nVarkor não era apenas um tirano; era uma sombra que se alimentava do sofrimento. Ele sequestrava jovens moças, espalhando o caos com risos sombrios e atos impiedosos. Sua sede de poder parecia insaciável, e sua presença transformava a vila pacífica em um lugar de medo e silêncio.\n");
+    printf("A mãe de Lyara fora uma mulher gentil, forte e cheia de amor, que tentou proteger sua família até o último suspiro. Quando Lyara tinha apenas 14 anos, Varkor e seus homens invadiram a vila numa noite sem lua, em busca de jovens para seus planos sombrios.\nAs famílias se esconderam, trancando portas e janelas, mas a força brutal dos invasores era implacável.\nEscondida num pequeno porão improvisado, Lyara ouviu os gritos agonizantes de sua mãe, que lutava desesperadamente, mas acabou ceifada pela violência dos invasores. O som da dor e da perda ficou gravado em sua alma como uma ferida aberta.\nQuando a tempestade passou, Lyara emergiu da escuridão daquele esconderijo, com os olhos cheios de lágrimas e a promessa de que a justiça seria feita — custasse o que custasse.\n");
+    printf("Anos se passaram. Lyara treinou seu corpo e sua mente até os limites da exaustão. Agora, alcançando a maioridade, ela estava pronta para enfrentar o perigo que havia destruído sua infância.\n");
+    printf("Naquela manhã, enquanto preparava seus pertences para a jornada, ela se voltou para o pai, que estava cabisbaixo, os olhos cheios de preocupação.\n");
+    printf("Lyara: 'Pai, eu sei que isso assusta você, mas essa é a única coisa que pode trazer paz para nossa vila.'\n");
+    printf("Pai: 'Minha filha... o medo que sinto não é por você, mas pelo que o mundo pode fazer com você.'\n");
+    printf("Pai: 'Uma vingança pode consumir uma alma jovem como a sua.'\n");
+    printf("Lyara: 'Se não for eu, ninguém fará isso. Eu preciso tentar. E você estará comigo, sempre, no meu coração.'\n");
+    printf("Pai: (suspira) 'Só prometa que voltará. Não importa o que aconteça, volte para casa.'\n\n");
+}
+
+void escolhaVila(EstadoDoJogo *jogo) {
+    do {
+        printf("--- DECISÃO ---\n");
+        printf("1 - Ficar na aldeia\n");
+        printf("2 - Seguir em frente com a jornada\n");
+        printf("Sua escolha: ");
+        scanf("%d", &jogo->escolhaVila);
+
+        switch (jogo->escolhaVila) {
+            case 1:
+                ficar();
+                break;
+            case 2:
+                sair();
+                return; 
+            default:
+                printf("\nOpção inválida! Digite 1 ou 2.\n\n");
+        }
+    } while (jogo->escolhaVila != 1 && jogo->escolhaVila != 2);
+}
+
+void ficar() {
+    printf("\nVocê escolheu permanecer na aldeia.\n");
+    printf("Lyara sobe para o quarto e adormece...\n");
+    printf("De repente, acorda assustada com gritos desesperados.\n");
+    printf("Varkor e seus subordinados atacam a vila sem que houvesse chance de defesa.\n");
+    printf("\n--- GAME OVER ---\n");
+    exit(0);
+}
+
+void sair() {
+    printf("\nVocê escolheu seguir em frente.\n");
+    printf("Lyara parte ao entardecer, adentrando a floresta que poucos ousaram explorar...\n");
+}
+
+
+// Parte 2: O encontro e a escolha dos Dragôes //
+
+void encontroDragao(EstadoDoJogo *jogo) {
+    printf("\n\n--- NA FLORESTA ---\n");
+    printf("Lyara caminhava pela trilha quando ouviu um som estranho vindo do oeste.\n");
+    printf("Ao longe, avistou dois dragões imponentes recortando o céu.\n");
+    printf("De relance, os dragões olharam para Lyara e pousaram a sua frente, curiosos sobre o porquê uma humana estaria andando pela floresta\n");
+    printf("Dragão 1: 'Me chamo Jaguadarte, descendente das tribos do sul.'\n");
+    printf("Dragão 2: 'Sou Lewis, das tribos do norte, guardião dos feitiços antigos.'\n");
+
+    definirDragao(jogo);
+    printf("\nLyara foi em direção a %s.\n", jogo->nomeDragao);
+    dialogoDragao(jogo);
+}
+
+void definirDragao(EstadoDoJogo *jogo) {
+    do {
+        printf("\nQual dragão você irá escolher?\n1 - Jaguadarte\n2 - Lewis\nEscolha: ");
+        scanf("%d", &jogo->escolhaDragao);
+
+        switch (jogo->escolhaDragao) {
+            case 1:
+                strcpy(jogo->nomeDragao, "Jaguadarte");
+                break;
+            case 2:
+                strcpy(jogo->nomeDragao, "Lewis");
+                break;
+            default:
+                printf("\nOpção inválida! Digite 1 ou 2.\n");
+        }
+    } while (jogo->escolhaDragao != 1 && jogo->escolhaDragao != 2);
+}
+
+void dialogoDragao(EstadoDoJogo *jogo) {
+    printf("\n%s: 'Olhe para você... tão frágil, tão patética. Sua presença aqui é apenas um capricho meu.'\n", jogo->nomeDragao);
+    printf("%s: 'Eu não te esmaguei ainda porque sua insignificância me diverte.'\n", jogo->nomeDragao);
+
+    do {
+        printf("\nO que você responde?\n");
+        printf("1 - 'Você me mantém aqui porque sabe que sou a única capaz de enfrentar o Destruidor e trazer a unica criatura a qual se importava de volta.'\n");
+        printf("2 - 'Grande dragão? Que título patético. Você nem conseguiu proteger a única criatura que amou.'\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->respostaDialogoDragao);
+
+        switch (jogo->respostaDialogoDragao) {
+            case 1:
+                printf("\nO dragão se comove com sua audácia e resolve testá-la, ensinando os primórdios do controle mental.\n");
+                desafioMental(jogo);
+                return;
+            case 2:
+                respostaErradaDragao();
+                break;
+            default:
+                printf("\nOpção inválida! Digite 1 ou 2.\n");
+        }
+    } while (jogo->respostaDialogoDragao != 1 && jogo->respostaDialogoDragao != 2);
+}
+
+void respostaErradaDragao() {
+    printf("\nO dragão se sentiu atacado e, tomado pela fúria, a derrotou sem piedade.\n");
+    printf("\n--- GAME OVER ---\n");
+    exit(0);
+}
+
+void desafioMental(EstadoDoJogo *jogo) {
+    printf("\nO dragão decide testar sua aptidão mágica...\n");
+    printf("Ele projeta uma equação em sua mente:\n");
+
+    do {
+        printf("\nQual é o resultado de (7 * 3) + 5 ?\n");
+        printf("1) 21\n");
+        printf("2) 26\n");
+        printf("3) 29\n");
+        printf("4) 31\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->respostaDesafioMental);
+
+        if (jogo->respostaDesafioMental == 2) {
+            printf("\nCorreto! Você conseguiu ler a mente do dragão.\n");
+            printf("Ele reconhece sua habilidade e decide acompanhá-la em sua jornada.\n");
+            return;
+        } else if (jogo->respostaDesafioMental == 1 || jogo->respostaDesafioMental == 3 || jogo->respostaDesafioMental == 4) {
+            printf("\nErrado! Sua mente falhou e o dragão a considera indigna.\n");
+            printf("\n--- GAME OVER ---\n");
+            exit(0);
+        } else {
+            printf("\nOpção inválida!\n");
+        }
+    } while (true);
+}
+
+// Parte 3: O ogro Shreks //
+
+void encontroShreks(EstadoDoJogo *jogo) {
+    printf("\n\n--- O ENCONTRO COM OS SHREKS ---\n");
+    printf("Andando pela floresta, Lyara e %s avistam criaturas estranhas guardando o caminho.\n", jogo->nomeDragao);
+    printf("São Shreks, uma raça de ogros capazes de enlouquecer a mente de quem os encara.\n");
+    dialogoShreks(jogo);
+}
+
+void dialogoShreks(EstadoDoJogo *jogo) {
+    do {
+        printf("\nO que você dirá para provocá-lo?\n");
+        printf("1 - 'Eu te chamo de coitado, mas não me vem outra palavra para descrever sua insignificância.'\n");
+        printf("2 - 'Se você é tão forte, por que ainda tenta me convencer com palavras?'\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->respostaShreks);
+
+        if (jogo->respostaShreks == 1 || jogo->respostaShreks == 2) {
+            printf("\nO Shreks se irrita com suas palavras! Ele está pronto para o combate mental.\n");
+            combateOgro(jogo);
+            return;
+        } else {
+            printf("\nOpção inválida!\n");
+        }
+    } while (jogo->respostaShreks != 1 && jogo->respostaShreks != 2);
+}
+void combateOgro(EstadoDoJogo *jogo) {
+    printf("\nO perigo é real e palpável. Agora você deve agir para sobreviver!\n");
+    do {
+        printf("1 - Tentar proteger sua mente\n");
+        printf("2 - Tentar invadir a mente do ogro\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->escolhaOgroPorrada);
+
+        switch (jogo->escolhaOgroPorrada) {
+            case 1:
+                contextoDefesa();
+                testeVinganca(jogo);
+                return;
+            case 2:
+                contextoAtaque();
+                testeVinganca(jogo);
+                return;
+            default:
+                printf("\nOpção inválida!\n");
+        }
+    } while (jogo->escolhaOgroPorrada != 1 && jogo->escolhaOgroPorrada != 2);
+}
+
+void contextoDefesa() {
+    printf("\nLyara fecha os olhos e ergue uma barreira mental, tentando se proteger.\n");
+    printf("Por um instante, a dor diminui... mas o ogro é implacável e começa a quebrar sua defesa.\n");
+    printf("Lyara sente que precisará revelar sua verdadeira motivação para resistir...\n");
+}
+
+void contextoAtaque() {
+    printf("\nLyara encara o Shreks, forçando sua mente a invadir a dele.\n");
+    printf("Ela vê vislumbres de um vazio sombrio, mas o ogro repele sua tentativa com brutalidade.\n");
+    printf("Para sobreviver, Lyara precisa provar a força de sua determinação...\n");
+}
+
+void testeVinganca(EstadoDoJogo *jogo) {
+    do {
+        printf("\nPara Lyara ter êxito, revele sua motivação: Por que ela busca vingança?\n");
+        printf("1 - Para vingar a morte de sua mãe\n");
+        printf("2 - Para vingar a morte de seu pai\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->respostaMotivacao);
+
+        switch (jogo->respostaMotivacao) {
+            case 1:
+                printf("\nLyara afirma sua verdadeira motivação! A dor pela perda da mãe.\n");
+                printf("O poder de sua convicção é tão forte que o Shreks recua, derrotado pela força de sua vontade.\n");
+                return;
+            case 2:
+                printf("\nLyara mente sobre sua motivação. O Shreks percebe a falsidade...\n");
+                printf("Sua mente é destruída pelo poder do ogro.\n");
+                printf("\n--- GAME OVER ---\n");
+                exit(0);
+            default:
+                printf("\nOpção inválida!\n");
+        }
+    } while (jogo->respostaMotivacao != 1 && jogo->respostaMotivacao != 2);
+}
+
+// Parte 4: A flor mágica no lago encantado //
+
+void lagoMagico(EstadoDoJogo *jogo) {
+    printf("\n\n--- O LAGO MÁGICO ---\n");
+    printf("\nO Ogro Shereks havia se dissolvido em pó, bem como toda a magia que os rodeava. O ambiente, então, se revelava, percebendo-se que o poder de Shereks era mais interno do que se parecia.\n");
+    printf("As árvores que antes tinham uma aparência de espécies de pântanos se transformaram em espécies da primavera de Marmor.\n");
+    printf("O chão, antes coberto por musgo e folhas secas e mortas, esbanjava uma grama baixa e de um verde brilhante, do qual pequenas flores nasciam do solo belo.\n");
+    printf("Para Lyara, o ambiente não poderia surpreender mais...bom, até que a poucos metros algo refletia a floresta.\nUm lago mágico, antes escondido por um feitiço do ogro, é revelado diante de Lyara e %s.\n", jogo->nomeDragao);
+    printf("1- Explorar o Lago mágico\n");
+    printf("2- Não explorar o Lago mágico\n");
+    printf("Sua escolha: ");
+    scanf(" %c", &jogo->escolhaExplorarLago);
+
+    if (jogo->escolhaExplorarLago == '1') {
+        printf("\nAo explorar, você acha uma flor mágica de brilho suave...\n");
+        printf("1- Colher a flor\n");
+        printf("2- Não pegar, pois pode ser perigoso\n");
+        printf("Sua escolha: ");
+        scanf(" %c", &jogo->escolhaPegarFlor);
+
+        if (jogo->escolhaPegarFlor == '1') {
+            printf("\nLyara decide colher a flor. Ao tocá-la, uma energia revitalizante percorre seu corpo.\n");
+        } else {
+            printf("Com receio de haver consequencias se pegasse a flor, Lyara se afasta da margem.\nPorém, do jardim recentemente formado ao seu redor, um homem envelhecido surge entre os arbustos. Um gato de pelo alaranjado o seguia tentando brincar com o movimento lento do andar cansado do ancião.\n");
+            printf("'Não tema, jovem', ele diz com uma voz calma. 'Essa flor possui a força que você procura. Pegue-a, eu a reconheço como digna dessa bênção.'\n");
+            printf("Lyara, sentindo que podia acreditar no ancião, decide colher a flor.\nAo tocá-la, uma energia revitalizante percorre seu corpo.\n");
+            printf("Ao voltar o seu olhar para onde o homem e o gato estavam, Lyara apenas vizualiza uma pela árvore de caqui, a qual flores laranjas a rodeava\n");
+
+        }
+    }
+    printf("\nCom a visão do belo lago cristalino, Lyara e o dragão seguem seu caminho pela floresta...\n");
+}
+
+// Parte 5: A cabana da Bruxa //
+
+void encontroBruxa(EstadoDoJogo *jogo) {
+    printf("\n\n--- A CABANA NA FLORESTA ---\n");
+    printf("\nEnquanto Lyara e o dragão andavam pela floresta, avistaram uma fumaça a qual revelava o preparo de comida. Tomados pela fome resolveram seguir a fumaça.\n");
+    printf("A fumaça saia da chaminé de uma cabana. Enquanto caminhavam em direção à construção, avistaram uma mulher na varanda da cabana colhendo plantas que enfeitavam a frente da pequena casa.\n");
+    printf("A moça vestia um véu escuro e usava um colar magnífico, o qual denunciou sua classe: bruxa. Lyara rapidamente a reconheceu, era a Bruxa Gulch.\nLyara já tinha escutado lendas sobre uma feiticeira que habitava essa floresta, porém nunca imaginou que esse mito seria verdadeiro.\n");
+    printf("Com um sorriso caloroso ao vê-los, a bruxa os convida para entrar em sua cabana e terem uma refeição.\n");
+    printf("1- Entrar na cabana.\n2- Questionar a Bruxa sobre o convite repentino.\n");
+    printf("Sua escolha: ");
+    scanf("%d", &jogo->escolhaEntrarCabana);
+
+    if (jogo->escolhaEntrarCabana == 1) {
+        printf("\nGulch os considera presas fáceis e baixa a sua guarda.\n");
+    } else {
+        printf("\nGulch tem uma má impressão e desconfia de Lyara.\n");
+    }
+
+    printf("Lyara e o dragão entram na cabana da bruxa Gulch pois precisavam de informações sobre a floresta.\n");
+    printf("Ao seguirem a bruxa pelos corredores da cabana, os dois tentavam conversar com Gulch como forma de obterem mais informações, porém, sem perceber, a bruxa revela a sua verdadeira classe de feiticeira: Devoradora de almas.\n");
+    printf("Após essa grande revelação escolha as reações de Lyara e %s:\n", jogo->nomeDragao);
+    printf("1- Atacá-la imediatamente.\n2- Tentar fazê-la revelar mais informações...\n");
+    printf("Sua escolha: ");
+    scanf("%d", &jogo->escolhaAtaqueBruxa);
+
+    if (jogo->escolhaAtaqueBruxa == 1) {
+        printf("\nLyara e %s lutam bravamente... Porém, %s foi atingido e seguirá a jornada mais fraco.\n", jogo->nomeDragao, jogo->nomeDragao);
+    } else {
+        printf("\nLyara usa sua perspicácia para enganar a bruxa... eles derrotam Gulch sem sofrer nenhum arranhão.\n");
+    }
+    printf("\nCom a bruxa Gulch derrotada, o caminho para o Castelo de Pietas, no coração da floresta, está revelado. Lyara e %s seguem viagem.\n", jogo->nomeDragao);
+}
+
+// Parte 6: Chegada ao castelo de Pietas //
+
+void casteloPietas(EstadoDoJogo *jogo) {
+    printf("\n\n--- O CASTELO DE PIETAS ---\n");
+    
+     printf("\nPor meio das informações dadas por Gulch, Lyara e o dragão seguem o caminho revelado pela bruxa.\nDepois de muito vagarem pela floresta, a mudança de atmosfera era visível. O ar era mais denso e as plantas ao seu redor aparentavam cada vez mais melancolía.\nLyara não podia acreditar que realmente havia chegado no lugar que abrigava o monstro da sua infância: O Castelo de Pietas.\n");
+    printf("A entrada era magnificamente tenebrosa. Ao atravessar o arco de mármore que separava a entrada externa do castelo do exterior, sentiu o ar pesando em seus pulmões.\n");
+    printf("%s: 'Lyara, Pare. Sinto um feitiço que nos ronda. Preste atenção, deve haver algo que nos ajudará a passar despercebidos.'\nObservando atentamente o seu redor, Lyara rapidamente detecta um ponto arroxeado acima do arco o qual passaram.\n%s:'Precisamos saber o porquê da existência daquele único ponto roxo, suba em meu ombro.'\n", jogo->nomeDragao, jogo->nomeDragao);
+    printf("Já em pé nos ombros escamados do seu amigo de aventura, Lyara fica de frente para o ponto em meio ao mármore desgastado. Curiosa, Lyara passa as mãos sobre o mesmo e o que antes exibia um lilás opaco, agora reluzia um brilho que parecia ter ficado preso pelos musgos por muito tempo.\nUma imagem de um rosto se forma na joia arroxeada, apesar de visualiza-lo, não conseguia o descrever, podia ver o que a encarava mas não conseguia verbalizar ou elaborar um pensamento sobre a face que a encarava.\n");
+    printf("'Olá, jovem Lyara da vila de Marmor, está pronta?', se a imagem na pedra roxa já deixará Lyara confusa, uma pedra falante falando com ela bagunçou ainda mais a sua mente.\n");
+    printf("Lyara:'Perdão, mas ao que se refere eu estar pronta? Como sabes o meu nome?'\nPedra:'Ora jovem, eu sei de muitas coisas, eu observo muitas pessoas, muitas histórias. Sei o que queres, menina. E poderei ajuda-la se estiveres pronta. Estás?'\n");
+    printf("Lyara ficava ainda mais confusa, mas sabia que para avançar -seja em diante ou não- teria que passar pelo provação oferecida da personificação na pedra\nLyara: 'Estou pronta!'\n");
+    printf("Lyara sentiu como se sua mente estivesse entrando em um colapso sensorial. Pensamentos, cenários, lembranças, tudo ao mesmo tempo consumia a sanidade de Lyara.\n");
+    printf("O dragão rapidamente percebeu a confusão que a mente de Lyara transmitia. A garota ainda estava em pé em seu ombro, porém seu corpo estava tenso e ficava cada vez mais gelado.\nO dragão a tirou do seu ombro e a segurou de modo que ficasse em pé a sua frente, ele precisava ajuda-la a sair do estado a qual se encontrava.\n");
+    
+    do {
+        printf("\nResolva o problema para %s focar sua mente: C(n,n) = ?\n", jogo->nomeDragao);
+        printf("1- C(n,n)=0\n2- C(n,n)=1\n3- C(n,n)=2\n");
+        printf("Sua escolha: ");
+        scanf("%d", &jogo->escolhaMentalCastelo);
+
+        switch (jogo->escolhaMentalCastelo) {
+            case 2:
+                bencao();
+                return;
+            case 1:
+            case 3:
+                naobencao();
+                break;
+            default:
+                printf("\nOpção inválida! Digite 1, 2 ou 3.\n");
+        }
+    } while (jogo->escolhaMentalCastelo < 1 || jogo->escolhaMentalCastelo > 3);
+}
+
+void bencao() {
+    printf("\nO dragão consegue entrar na mente de Lyara e convencê-la a apenas pensar na bênção que queriam para chegar à torre do castelo.\n");
+    printf("Lyara e o dragão são envolvidos por uma névoa de invisibilidade temporária.\nCom isso, eles adentram o interior do castelo sem serem vistos, em busca da mais alta torre da construção, a qual era habitada por Varkor.\n");
+    
+}
+
+void naobencao() {
+    printf("\nO dragão falhou ao tentar ajudar Lyara e a pedra roxa não a considerou digna.\n");
+    printf("Alarmes soam e os guardas aparecem; Lyara, inconsciente, foi levada para ter a vida ceifada por Varkor, enquanto o dragão era imobilizado para ser sacrificado.\n");
+    printf("\n--- GAME OVER ---\n");
+    exit(0);
+}
+
+
+// Parte 7: Encontro da dragão fêmea aprisionada //
+
+void encontroDaCela(EstadoDoJogo *jogo) {
+    printf("\n\n--- OS CORREDORES DA TORRE ---\n");
+    printf("Enquanto caminhavam apressadamente pelos corredores verticais que davam acesso ao topo da torre de Varkor, o dragão sente uma magia familiar que faz seus até os pelos da sua sobrancelha se arrepiarem\n");
+    printf("Dragao:'Lyara, há mais alguém nesses corredores, consigo sentir.'\nLyara:'É algum guarda? Precisamos nos esconder, %s!'", jogo->nomeDragao);
+    printf("Dragão:'Não é alguém deles, é diferente, parece estar vindo daqui.'\n O dragão apontava para a parede a frente. Lyara andou até a parede que ficava a frente da que o dragão se referia, e deu 3 batidas. Voltou à parede que o dragão encarava e deu 3 batidas também.\n");
+    printf("Os barulhos foram diferentes em cada superfície e logo perceberam que a parede que o dragão encarava escondia algo por trás, era oca\n");
+    printf("Lyara:'Veja, esse bloco de baixo parece estar meio solto'\nAo tocar o bloco de concreto, a garota o empurra em direção contrária à parede e uma abertura é revelada.\nAo olharem para dentro do buraco na parede, uma figura escamosa é revelada dentro de uma espécie de gaiola gigante. Os olhos de %s brilham intensamente e o mesmo adentra a pequena sala dentro da parede.\n", jogo->nomeDragao);
+    printf("Dragão:'Querida!'\n'%s!?'\n", jogo->nomeDragao);
+    printf("Lyara observava a cena com o coração transbordando de felicidades pelo seu amigo, percebendo que encontrara a esposa do dragão.\nDragão:'Temos que tirá- la daqui, Lyara! Precisamos destrancar esse cadeado.'\n");
+    printf("A garota rapidamente manuseia o cadeado para analisar como funcionava sua estrutura. O objeto possui três rolos de números, os quais, cada um, tinha números de 0 a 9. Na parte de trás do cadeado, instruções bem sucintas eram dadas para abri-lo.\n");
+    printf("'Os algarismos são distintos.\nO algarismo das centenas é o triplo do algarismo das unidades.\nO algarismo das dezenas é um número ímpar.\nA soma de todos os meus algarismos é 13.'\n");
+    
+    
+    do {
+        printf("\nAnalise qual a combinação de algarismo correta para Lyara destrancar o cadeado, conforme as instruções dadas.\n");
+        printf("1- 613\n2- 931\n3- 372\n4- 652\n");
+        printf("Sua escolha: ");
+        scanf("%d", &jogo->escolhaEnigmaCadeado);
+
+        switch (jogo->escolhaEnigmaCadeado) {
+            case 4:
+                liberdade();
+                return;
+            case 1:
+            case 2:
+            case 3:
+                fracasso();
+                break;
+            default:
+                printf("\nOpção inválida! Digite 1, 2, 3 ou 4.\n");
+        }
+    } while (jogo->escolhaEnigmaCadeado < 1 || jogo->escolhaEnigmaCadeado > 4);
+}
+
+void liberdade() {
+    printf("\n\nO cadeado é destrancado e as grades são abertas.\nO dragão abraça a sua esposa e a apresenta à Lyara, a qual abraça a dragão fêmea calorosamente.\n");
+    printf("Dragão: 'Escute, querida. Precisa sair daqui o mais rápido possível. Vôe para o leste e se esconda na floresta.'\nDragão Fêmea: 'Mas querido, você...'.\nDragão: 'Não, querida, perdão. Preciso garantir que você nunca mais seja aprisionada por Varkor. Espere no leste e fique segura.'\n");
+    printf("A esposa do dragão estava relutante, mas percebeu a agonia do seu marido pelo medo de perdê-la novamente.\nDragão Fêmea: 'Certo, mas volte, por favor.'\nOs dragões se abraçam novamente e a mesma caminha até uma abertura que dava acesso ao lado de fora da torre.\nDragão Fêmea: 'Sigam o meu encantamento e chegaram à sala dele, boa sorte.'; A esposa do dragão disse antes de sair voando em direção à floresta.\n");
+}
+
+void fracasso() {
+    printf("\nO código errado fez a abertura da parede se fechar instantaneamente, deixando os três presos na pequena sala.\n");
+    printf("Uma fumaça verde tóxica saia do teto e invadia os pulmões dos aprisionados, fazendo-os parar de respirar.\n");
+    printf("\n--- GAME OVER ---\n");
+    exit(0);
+}
+
+// Parte 8: O confronto final com Varkor
+
+void dialogoInicialVarkor(EstadoDoJogo *jogo) {
+    printf("\n\n--- A TORRE DE VARKOR ---\n");
+    printf("Lyara e %s finalmente chegam ao topo da torre.\n", jogo->nomeDragao);
+    printf("Lá, avistam o temido Varkor.\n");
+    printf("Varkor: 'HA HA HA! Veja só quem finalmente apareceu! Sabia que sua mãe foi uma de minhas vítimas? Agora é a sua vez!'\n");
+
+    do {
+        printf("\nO que você responde?\n");
+        printf("1- 'Felizmente o tempo passou, não sou mais aquela garotinha... E não estou sozinha.'\n");
+        printf("2- 'Pode falar o que quiser, só tome cuidado para não perder sua cabeça para minha espada!'\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->respostaVarkor);
+
+        if (jogo->respostaVarkor == 1 || jogo->respostaVarkor == 2) {
+            return;
+        } else {
+            printf("\nOpção inválida!\n");
+        }
+    } while (true);
+}
+
+void escolhaPoder(EstadoDoJogo *jogo) {
+    printf("\nVarkor se prepara para a batalha. É a hora de usar o conhecimento adquirido.\n");
+    do {
+        printf("\nO que você escolhe fazer?\n");
+        printf("1 - Usar o poder elemental do dragão imediatamente.\n");
+        printf("2 - Usar o poder de enlouquecer mentes, aprendido com o dragão e o ogro.\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->escolhaPoder);
+
+        switch (jogo->escolhaPoder) {
+            case 1:
+                desafioCombinacao(jogo);
+                return;
+            case 2:
+                desafioEnigma(jogo);
+                return;
+            default:
+                printf("\nOpção inválida!\n");
+        }
+    } while (true);
+}
+
+void desafioCombinacao(EstadoDoJogo *jogo) {
+    printf("\nPara canalizar o poder do dragão, você precisa de foco absoluto.\n");
+    do {
+        printf("\nResolva a equação de combinação para continuar:\n");
+        printf("C(10,5) = ?\n");
+        printf("1 - 120\n");
+        printf("2 - 252\n");
+        printf("3 - 210\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->respostaCombinacao);
+
+        switch (jogo->respostaCombinacao) {
+            case 2:
+                printf("\nCorreto! Você domina o poder do dragão e desfere um golpe poderoso em Varkor!\n");
+                return;
+            case 1:
+            case 3:
+                printf("\nErrado! Sua mente vacila e o poder se dissipa.\n\n--- GAME OVER ---\n");
+                exit(0);
+            default:
+                printf("\nOpção inválida!\n");
+        }
+    } while (true);
+}
+
+void desafioEnigma(EstadoDoJogo *jogo) {
+    printf("\nPara invadir a mente de Varkor, você precisa de astúcia.\n");
+    do {
+        printf("\nResponda ao enigma para continuar:\n");
+        printf("A mãe de João teve cinco filhos. O primeiro se chamava Dadá; o segundo, Dedé; o terceiro, Didi; e o quarto, Dodó. Como se chamava o quinto filho?\n");
+        printf("1 - Dudu\n");
+        printf("2 - João\n");
+        printf("3 - Dada\n");
+        printf("Escolha: ");
+        scanf("%d", &jogo->respostaEnigma);
+
+        switch (jogo->respostaEnigma) {
+            case 2:
+                printf("\nCorreto! Sua perspicácia abre uma brecha na mente de Varkor, causando-lhe grande dor!\n");
+                return;
+            case 1:
+            case 3:
+                printf("\nErrado! Sua tentativa falha e Varkor repele seu ataque mental.\n\n--- GAME OVER ---\n");
+                exit(0);
+            default:
+                printf("\nOpção inválida!\n");
+        }
+    } while (true);
+}
+
+void finalHistoria(EstadoDoJogo *jogo) {
+    printf("\nLyara, exausta e ferida, encurrala Varkor.\n");
+    printf("Mas o vilão, enfraquecido, revela um trunfo cruel.\n");
+    printf("Ele revela o pai de Lyara, agora seu refém.\n");
+}
+
+void dialogoFinal(EstadoDoJogo *jogo) {
+    printf("\nVarkor (rindo com malícia): 'Você até que me deu trabalho. Mas agora o jogo mudou.'\n");
+    printf("Varkor aponta para o pai de Lyara, amarrado e assustado.\n");
+    printf("Varkor: 'Se quiser que ele respire, terá que fazer uma escolha: sua vida, a dele, ou a do seu precioso dragão.'\n");
+    printf("Varkor: 'Faça rápido, ou todos sofrerão as consequências.'\n");
+}
+
+void escolhaFi(EstadoDoJogo *jogo) {
+    printf("\nA tensão é máxima. O que Lyara fará?\n");
+    printf("\n1 - Sacrificar-se para poupar seu pai e seu amigo dragão.\n");
+    printf("2 - Tentar salvar seu pai, arriscando tudo.\n");
+    printf("3 - Confiar no dragão para um ataque surpresa.\n");
+    printf("Escolha: ");
+    scanf("%d", &jogo->escolhaFi);
+
+    printf("\n... e com sua escolha, o destino de todos foi selado.\n");
+}
+
+void escolhaFin(EstadoDoJogo *jogo) {
+    int escolhaFi;
+    do {
+        printf("Qual escolha você irá fazer?\n");
+        printf("1 - Sacrificar a própria vida\n");
+        printf("2 - Salvar o pai\n");
+        printf("3 - Ataque surpresa\n");
+        scanf("%d", &escolhaFi);
+
+        switch(escolhaFi) {
+            case 1:
+                sacrificioHeroico();
+                exit(0);
+            case 2:
+                vitoriaConjunta();
+                exit(0);
+            case 3:
+                ataqueInsuficiente();
+                exit(0);
+            default:
+                printf("Opção inválida! \n");
+        }
+    } while(escolhaFi != 1 && escolhaFi != 2 && escolhaFi != 3);
+}
+
+  void sacrificioHeroico() {
+    printf("Visão dragão\n");
+    printf("Estávamos na torre, cercados pela magia do vilão.\n");
+    printf("Eu sentia cada onda de poder, cada vibração ameaçadora nas paredes.\n");
+    printf("Lyara correu pelo espaço estreito, desesperada para salvar seus entes queridos, e eu percebi algo que só um dragão sente:\n");
+    printf("O peso de cada ESCOLHA dela.\n");
+    printf("\n");
+    printf("Seu pai, exausto, falou que precisava ser sacrificado.\n");
+    printf("Lyara tentou resistir, mas a verdade da situação era inevitável.\n");
+    printf("Então veio a magia: uma explosão de luz que queimava tudo ao redor, uma força que arrastava o vilão… mas também Lyara.\n");
+    printf("\n");
+    printf("Senti suas últimas energias e o impacto em minhas escamas quando o feitiço atingiu o pico.\n");
+    printf("Ela salvou todos, mas o preço foi altíssimo. \n");
+    printf("Um peso tomou meu coração: a ausência dela, a coragem dela, a vida que ela nos deu.\n");
+    printf("Ainda assim, algo permaneceu — seu legado, a bravura, o amor, deixando marcas profundas em cada um que sobreviveu.\n");
+    printf("E eu, ao seu lado até o fim, senti cada fragmento dessa coragem ecoar na torre vazia que agora guardava sua memória.\n");
+    printf("\n");
+    printf("Final Intermediário.\n");
+}
+
+void vitoriaConjunta() {
+    printf("A torre tremia sob a força do vilão, pedras caindo e chamas surgindo em todos os cantos.\n");
+    printf("Lyara correu para tentar proteger seu pai, que estava exausto.\n");
+    printf("Ele a deteve com um olhar firme:\n");
+    printf("Pai: 'Lyara… confie em mim. Eu ainda posso ajudar.'\n");
+    printf("\n");
+    printf("O que ela não sabia era que seu pai já fora um grande feiticeiro.\n");
+    printf("No momento em que o vilão tentou atacá-lo, ele conjurou um feitiço de proteção poderoso, impedindo que o inimigo alcançasse Lyara ou o dragão.\n");
+    printf("A magia diminuiu a força do ataque do vilão, mas deixou o dragão ferido pelas ondas de choque.\n");
+    printf("\n");
+    printf("Juntos, Lyara e o dragão avançaram contra o vilão.\n");
+    printf("Mesmo com toda a força, o ataque surpresa não seria suficiente.\n");
+    printf("Mas a coragem de Lyara, combinada com a magia da flor e o feitiço do pai, criou um feitiço final que envolveu o vilão em luz intensa até que ele finalmente caiu, derrotado.\n");
+    printf("\n");
+    printf("A torre estava em ruínas, mas todos haviam sobrevivido.\n");
+    printf("Feridos e exaustos, Lyara, seu pai e o dragão respiraram aliviados.\n");
+    printf("A coragem de Lyara, o apoio de seu pai e a lealdade do dragão provaram que juntos poderiam superar qualquer ameaça.\n");
+    printf("Final Bom.\n");
+}
+
+void ataqueInsuficiente() {
+    printf("A torre estava em completo caos, pedras caindo e chamas consumindo tudo ao redor.\n");
+    printf("Lyara atacou junto com o dragão, tentando usar a força do ataque surpresa, mas o vilão era rápido, forte e cruel demais.\n");
+    printf("\n");
+    printf("Um a um, ele começou a eliminar os entes queridos de Lyara.\n");
+    printf("Ela via cada vida desaparecer diante de seus olhos, e mesmo com toda a sua coragem, não conseguia impedir.\n");
+    printf("O dragão rugia, tentando protegê-la, mas cada golpe do inimigo deixava suas forças mais drenadas e suas feridas mais profundas.\n");
+    printf("\n");
+    printf("A cada perda, Lyara sentia o peso da culpa e da impotência. Mesmo sobrevivendo, a vitória parecia impossível:\n");
+    printf("o vilão escapou, e a dor daqueles que ela não conseguiu salvar permanecia viva dentro dela.\n");
+    printf("\n");
+    printf("Quando a poeira baixou, Lyara permaneceu de pé, exausta, com o dragão ao seu lado.\n");
+    printf("Mas o olhar dela carregava um fardo que nunca desapareceria — a lembrança de cada ente querido perdido e a certeza de que, por mais que lutasse,\n");
+    printf("algumas batalhas não poderiam ser vencidas.\n");
+    printf("Final Ruim.\n");
+}
